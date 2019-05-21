@@ -14,6 +14,12 @@ function upload() {
     req.send(form);
 }
 
+function update() {
+    var req = new XMLHttpRequest();
+    req.open("post", "/update", true);
+    req.send();
+}
+
 function articles() {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
