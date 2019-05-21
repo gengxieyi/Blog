@@ -1,10 +1,15 @@
 from flask import Flask
 from flask import request
 import os
+import sys
 import json
 import time
 import markdown
 app = Flask(__name__)
+
+if sys.getdefaultencoding() != 'gbk':
+    reload(sys)
+    sys.setdefaultencoding('gbk')
 
 @app.route('/upload',methods=['POST'])
 def upload():
