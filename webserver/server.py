@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 from flask import Flask
 from flask import request
 import os
@@ -5,11 +8,8 @@ import sys
 import json
 import time
 import markdown
+import urllib
 app = Flask(__name__)
-
-if sys.getdefaultencoding() != 'gbk':
-    reload(sys)
-    sys.setdefaultencoding('gbk')
 
 @app.route('/upload',methods=['POST'])
 def upload():
@@ -27,14 +27,15 @@ def getFileItems():
             continue
         ctime = os.path.getctime(workdir + filename)
         ctime = time.strftime("%B %d,%Y %H:%M",time.localtime(ctime))
-        f = {"title":os.path.splitext(filename)[0],"date":ctime,"snapshot":open(workdir+filename).read(100)+"......"}
+        snapshot = getsnapshot(workdir+filename,40)
+        f = {"title":os.path.splitext(filename)[0],"date":ctime,"snapshot":snapshot+"......"}
         result.append(f)
     print result
     return json.dumps(result)
 
 @app.route('/article/<name>',methods=['GET'])
 def preview(name):
-    md_text = open("/mnt/webfile/" + name + ".md").read()
+    md_text = open("/mnt/webfile/" + name + ".md").read().decode("utf-8")
     html = markdown.markdown(md_text)
     return '<h1 class="blog-title">' + name + '</h1>' + html
 
@@ -46,6 +47,21 @@ def update():
 def preview(name):
     md_text = open("/mnt/webfile/" + name + ".md").read()
     html = markdown.markdown(md_text)
-    return '<h1 class="blog-title">' + name + '</h1>' + html
+    return '<h1 class="blog-title">' + name.decode("utf-8") + '</h1>' + html
+def getsnapshot(filename,count):
+    f = open(filename).read()
+    result = []
+    offset = 0
+    while count > 0 and offset < len(f):
+        ch = f[offset]
+        result.append(ch)
+        if ord(ch) >> 4 == 14:
+            result.append(f[offset+1])
+            result.append(f[offset+2])
+            offset += 3
+        else :
+            offset += 1
+        count -= 1
+    return "".join(result)
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
