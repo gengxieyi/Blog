@@ -41,14 +41,14 @@ def preview(name):
 
 @app.route('/update',methods=['POST'])
 def update():
-    os.system("bash /mnt/webdata/Blog/webserver/script/update.sh")
+    os.system("bash /mnt/webdata/Blog/webserver/script/update.sh > /dev/null")
     return ""
 
 def preview(name):
     md_text = open("/mnt/webfile/" + name + ".md").read()
     html = markdown.markdown(md_text)
     return html
-    
+
 def getsnapshot(filename,count):
     f = open(filename).read()
     result = []
