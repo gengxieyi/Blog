@@ -16,6 +16,11 @@ function upload() {
 
 function update() {
     var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        if (req.readyState == 4 && req.status == 200) {
+            alert("update success")
+        }
+    }
     req.open("post", "/update", true);
     req.send();
 }

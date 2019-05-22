@@ -41,7 +41,7 @@ def preview(name):
 
 @app.route('/update',methods=['POST'])
 def update():
-    os.system("bash /mnt/webdata/Blog/webserver/script/update.sh > /dev/null")
+    os.system("bash /mnt/webdata/Blog/webserver/script/update.sh")
     return ""
 
 def preview(name):
