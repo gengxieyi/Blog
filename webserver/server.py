@@ -37,7 +37,7 @@ def getFileItems():
 def preview(name):
     md_text = open("/mnt/webfile/" + name + ".md").read().decode("utf-8")
     html = markdown.markdown(md_text)
-    return '<h1 class="blog-title">' + name + '</h1>' + html
+    return html
 
 @app.route('/update',methods=['POST'])
 def update():
