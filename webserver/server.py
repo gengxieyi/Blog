@@ -44,6 +44,11 @@ def update():
     os.system("bash /mnt/webdata/Blog/webserver/script/update.sh")
     return ""
 
+@app.route('/remove/<name>',methods=['POST'])
+def remove():
+    os.remove("/mnt/webfile/" + name + ".md")
+    return ""
+
 def preview(name):
     md_text = open("/mnt/webfile/" + name + ".md").read()
     html = markdown.markdown(md_text)
