@@ -45,7 +45,7 @@ def update():
     return ""
 
 @app.route('/remove/<name>',methods=['POST'])
-def remove():
+def remove(name):
     os.remove("/mnt/webfile/" + name + ".md")
     return ""
 
